@@ -3,6 +3,7 @@ export type Studant = {
     name:string,
     email:string,
     dateOfBirth:Date,
+    hobbie:string,
 }
 
 export type Teacher = {

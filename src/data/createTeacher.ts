@@ -1,12 +1,12 @@
 import { connection} from "../index";
 
 
- export const createStudent = async (
+ export const createTeacher= async (
     id:string,
     name: string,
     email: string,
     dateOfBirth: Date,
-    hobbie: string
+    especialidades: string
   ): Promise<void> => {
     await connection
       .insert({
@@ -14,8 +14,8 @@ import { connection} from "../index";
         name:name,
         email:email,
         dateOfBirth:dateOfBirth,
-        hobbie:hobbie
+       especialidades:especialidades
       })
-      .into("Students");
+      .into("Teachers");
   };
   

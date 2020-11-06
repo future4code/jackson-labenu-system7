@@ -4,7 +4,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { AddressInfo } from "net";
 import { getCreateStudent } from "./endpoints/getCreateStudent";
-
+import {getCreateTeacher} from "./endpoints/getCreateTeacher";
+import { getAgeStudent } from "./endpoints/getAgeStudent";
+import { getCreateMission } from "./endpoints/getCreateMission";
 
 dotenv.config();
 console.log(process.env.teste)
@@ -26,7 +28,11 @@ app.use(cors())
 
 // endpoints
 
-app.post("/student/create",getCreateStudent)
+app.post("/student/create",getCreateStudent);
+app.get("/student/age/:id",getAgeStudent);
+app.post("/teacher/create",getCreateTeacher);
+app.post("/mission/create",getCreateMission);
+
 
 
 

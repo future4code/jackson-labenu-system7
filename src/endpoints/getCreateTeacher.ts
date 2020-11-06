@@ -1,26 +1,26 @@
-import { Request, Response } from "express"
-import { createStudent } from "../data/createStudent";
+import { Request, Response } from "express";
+import { createTeacher } from "../data/createTeacher";
 
 
-export const getCreateStudent = async(req:Request, res:Response) =>{
+export const getCreateTeacher = async(req:Request, res:Response) =>{
     try{
         if(!req.body.name ||
             !req .body.email ||
             !req.body.dateOfBirth ||
-            !req.body.hobbie
+            !req.body.especialidades
             ){
                 res.status(400)
                 .send("Digite todos os campos")
             }
             const id:string =Date.now() + Math.random().toString()
-            await createStudent(
+            await createTeacher(
                 id,
                 req.body.name,
                 req.body.email,
                 new Date (req.body.dateOfBirth),
-                req.body.hobbie,
+                req.body.especialidades,
             );
-            res.status(200).send("Estudante criado com sucesso!")
+            res.status(200).send("Professor criado com sucesso!")
 
     }catch(err){
       res.status(400).send({
