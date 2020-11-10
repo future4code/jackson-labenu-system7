@@ -3,7 +3,7 @@ import {connection} from "../index"
 
 export const ageStudent = async ( id:string):Promise<any> =>{
     try{
-        const result = await connection("Students")
+        const result = await connection("system_STUDENTS")
             .select ('dateOfBirth')
             .where ('id',id)
 

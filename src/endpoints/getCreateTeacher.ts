@@ -7,7 +7,7 @@ export const getCreateTeacher = async(req:Request, res:Response) =>{
         if(!req.body.name ||
             !req .body.email ||
             !req.body.dateOfBirth ||
-            !req.body.especialidades
+            !req.body.specialties
             ){
                 res.status(400)
                 .send("Digite todos os campos")
@@ -18,7 +18,7 @@ export const getCreateTeacher = async(req:Request, res:Response) =>{
                 req.body.name,
                 req.body.email,
                 new Date (req.body.dateOfBirth),
-                req.body.especialidades,
+                req.body.specialties,
             );
             res.status(200).send("Professor criado com sucesso!")
 

@@ -7,6 +7,8 @@ import { getCreateStudent } from "./endpoints/getCreateStudent";
 import {getCreateTeacher} from "./endpoints/getCreateTeacher";
 import { getAgeStudent } from "./endpoints/getAgeStudent";
 import { getCreateMission } from "./endpoints/getCreateMission";
+import { addTeacherToMission } from "./endpoints/addTeacherToMission";
+import { addStudentToMission } from "./endpoints/addStudentToMission";
 
 dotenv.config();
 console.log(process.env.teste)
@@ -29,8 +31,12 @@ app.use(cors())
 // endpoints
 
 app.post("/student/create",getCreateStudent);
+app.patch("/students/:studentId/join/:missionId", addStudentToMission);
 app.get("/student/age/:id",getAgeStudent);
+
 app.post("/teacher/create",getCreateTeacher);
+app.patch("/teachers/:teacherId/join/:missionId", addTeacherToMission);
+
 app.post("/mission/create",getCreateMission);
 
 

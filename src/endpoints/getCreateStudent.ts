@@ -7,7 +7,7 @@ export const getCreateStudent = async(req:Request, res:Response) =>{
         if(!req.body.name ||
             !req .body.email ||
             !req.body.dateOfBirth ||
-            !req.body.hobbie
+            !req.body.hobbies
             ){
                 res.status(400)
                 .send("Digite todos os campos")
@@ -18,7 +18,7 @@ export const getCreateStudent = async(req:Request, res:Response) =>{
                 req.body.name,
                 req.body.email,
                 new Date (req.body.dateOfBirth),
-                req.body.hobbie,
+                req.body.hobbies || [],
             );
             res.status(200).send("Estudante criado com sucesso!")
 

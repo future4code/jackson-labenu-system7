@@ -6,7 +6,7 @@ import { connection} from "../index";
     name: string,
     email: string,
     dateOfBirth: Date,
-    especialidades: string
+    specialties: string
   ): Promise<void> => {
     await connection
       .insert({
@@ -14,8 +14,8 @@ import { connection} from "../index";
         name:name,
         email:email,
         dateOfBirth:dateOfBirth,
-       especialidades:especialidades
+        specialties:specialties
       })
-      .into("Teachers");
+      .into("system_TEACHERS ");
   };
   

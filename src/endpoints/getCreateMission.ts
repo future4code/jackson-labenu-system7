@@ -1,31 +1,68 @@
 import { Request, Response } from "express"
 import { createMission } from "../data/createMission";
+import { Mission } from "../types/Mission";
+import convertFormat from "../services/convertFormat"
+import generateId from "../services/generateId"
 
-
-
-export const getCreateMission = async(req:Request, res:Response) =>{
+export const getCreateMission = async(req:Request, res:Response):Promise<void> =>{
     try{
-        if(!req.body.name ||
-            !req .body.start ||
-            !req.body.end ||
-            !req.body.module
-            ){
-                res.status(400)
-                .send("Digite todos os campos")
-            }
-            const id:string = Date.now() + Math.random().toString()
-            await createMission(
-                id,
-                 req.body.name,
-                 new Date(req.body.start),
-                 new Date(req.body.end),
-                 req.body.module,
-            );
-            res.status(200).send("Missão criada com sucesso!")
+      const { name, start, end, module, shift } = req.body
+
+      if (!name || !start || !end || !shift) {
+         res.statusCode = 406
+         throw new Error("'name', 'start', 'end' e 'shift' são obrigatórios")
+      }
+        
+
+            const startDateTimestamp: number = new Date(convertFormat(start)).getTime()
+             const endDateTimestamp: number = new Date(convertFormat(end)).getTime()
+
+             if (startDateTimestamp >= endDateTimestamp) {
+              res.statusCode = 406
+              throw new Error("Data de início deve ser anterior à de término")
+           }
+     
+           if(!name.includes("-na-night")){
+              res.statusCode = 406
+              throw new Error("Nomes das turmas noturnas devem terminar com '-na-night'")
+           }
+
+           const newMission: Mission = {
+            id: generateId(),
+            name,
+            start: convertFormat(start),
+            end: convertFormat(end),
+            module,
+            shift,
+            teachers: [],
+            students: []
+         }
+
+           
+            await createMission(newMission)
+               
+            res.status(200).send("Turma cadastrada com sucesso!")
 
     }catch(err){
-      res.status(400).send({
-        message: err.message ||  err.sqlMessage 
-      })
-    }
+      
+      let { message } = err
+     
+      if (message.includes(" for key 'name'")) {
+         res.statusCode = 409
+         message = "Nome já existe"
+      } 
+      
+      if (message.includes("Incorrect date value")) {
+         res.statusCode = 406
+         message = "Insira datas de início e término válidas, no formato 'dd/mm/aaaa'"
+      }
+
+      if (message.includes("Data truncated for column 'shift'")) {
+         res.statusCode = 406
+         message = "Valores válidos para 'shift' são 'INTEGRAL' e 'NOTURNA'"
+      }
+
+      res.send(message)
+
+   }
 }
